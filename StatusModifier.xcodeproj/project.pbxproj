@@ -1,0 +1,609 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8475DE5C196E70710097EF4A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8475DE5B196E70710097EF4A /* Foundation.framework */; };
+		8475DE67196E70720097EF4A /* StatusModifier.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8475DE66196E70720097EF4A /* StatusModifier.mm */; };
+		8475DE77196E70870097EF4A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8475DE5B196E70710097EF4A /* Foundation.framework */; };
+		8475DE79196E70870097EF4A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8475DE78196E70870097EF4A /* UIKit.framework */; };
+		8475DE7B196E70870097EF4A /* Preferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8475DE7A196E70870097EF4A /* Preferences.framework */; };
+		8475DE86196E70870097EF4A /* StatusModifierLoaderController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8475DE85196E70870097EF4A /* StatusModifierLoaderController.m */; };
+		8475DE9B196E70DC0097EF4A /* libsubstrate.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8475DE9A196E70DC0097EF4A /* libsubstrate.dylib */; };
+		8475DE9C196E7A780097EF4A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8475DE78196E70870097EF4A /* UIKit.framework */; };
+		8475DE9F196E8D0D0097EF4A /* libMobileGestalt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8475DE9E196E8D0D0097EF4A /* libMobileGestalt.dylib */; };
+		84AA5EAA196EAF0200A9EE6A /* LSStatusBarItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 84AA5EA9196EAF0200A9EE6A /* LSStatusBarItem.h */; };
+		84AA5EAC196EAF7B00A9EE6A /* libstatusbar.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 84AA5EAB196EAF7B00A9EE6A /* libstatusbar.dylib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		8475DE58196E70710097EF4A /* StatusModifier.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = StatusModifier.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		8475DE5B196E70710097EF4A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		8475DE60196E70720097EF4A /* control.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = control.txt; path = Package/DEBIAN/control.txt; sourceTree = "<group>"; };
+		8475DE61196E70720097EF4A /* control */ = {isa = PBXFileReference; lastKnownFileType = text; name = control; path = Package/DEBIAN/control; sourceTree = "<group>"; };
+		8475DE63196E70720097EF4A /* PackageVersion.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PackageVersion.plist; sourceTree = "<group>"; };
+		8475DE64196E70720097EF4A /* StatusModifier-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StatusModifier-Prefix.pch"; sourceTree = "<group>"; };
+		8475DE65196E70720097EF4A /* StatusModifier.xm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = StatusModifier.xm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		8475DE66196E70720097EF4A /* StatusModifier.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = StatusModifier.mm; sourceTree = "<group>"; };
+		8475DE6B196E70720097EF4A /* StatusModifier.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = StatusModifier.plist; path = Package/Library/MobileSubstrate/DynamicLibraries/StatusModifier.plist; sourceTree = "<group>"; };
+		8475DE76196E70870097EF4A /* StatusModifierLoader.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StatusModifierLoader.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		8475DE78196E70870097EF4A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		8475DE7A196E70870097EF4A /* Preferences.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Preferences.framework; path = Library/Frameworks/Preferences.framework; sourceTree = DEVELOPER_DIR; };
+		8475DE7F196E70870097EF4A /* control.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = control.txt; path = Package/DEBIAN/control.txt; sourceTree = "<group>"; };
+		8475DE80196E70870097EF4A /* control */ = {isa = PBXFileReference; lastKnownFileType = text; name = control; path = Package/DEBIAN/control; sourceTree = "<group>"; };
+		8475DE82196E70870097EF4A /* PackageVersion.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PackageVersion.plist; sourceTree = "<group>"; };
+		8475DE83196E70870097EF4A /* StatusModifierLoader-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "StatusModifierLoader-Info.plist"; sourceTree = "<group>"; };
+		8475DE84196E70870097EF4A /* StatusModifierLoaderController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StatusModifierLoaderController.h; sourceTree = "<group>"; };
+		8475DE85196E70870097EF4A /* StatusModifierLoaderController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StatusModifierLoaderController.m; sourceTree = "<group>"; };
+		8475DE8A196E70870097EF4A /* StatusModifierLoader.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = StatusModifierLoader.plist; path = Package/Library/PreferenceLoader/Preferences/StatusModifierLoader.plist; sourceTree = "<group>"; };
+		8475DE8D196E70870097EF4A /* StatusModifierLoader.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = StatusModifierLoader.plist; path = Package/Library/PreferenceBundles/StatusModifierLoader.bundle/StatusModifierLoader.plist; sourceTree = "<group>"; };
+		8475DE8E196E70870097EF4A /* StatusModifierLoaderIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = StatusModifierLoaderIcon.png; path = Package/Library/PreferenceBundles/StatusModifierLoader.bundle/StatusModifierLoaderIcon.png; sourceTree = "<group>"; };
+		8475DE8F196E70870097EF4A /* StatusModifierLoaderIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "StatusModifierLoaderIcon@2x.png"; path = "Package/Library/PreferenceBundles/StatusModifierLoader.bundle/StatusModifierLoaderIcon@2x.png"; sourceTree = "<group>"; };
+		8475DE95196E70870097EF4A /* StatusModifierLoader-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StatusModifierLoader-Prefix.pch"; sourceTree = "<group>"; };
+		8475DE9A196E70DC0097EF4A /* libsubstrate.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsubstrate.dylib; path = ../../../../../opt/iOSOpenDev/lib/libsubstrate.dylib; sourceTree = "<group>"; };
+		8475DE9D196E8CAE0097EF4A /* libMobileGestalt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libMobileGestalt.h; sourceTree = "<group>"; };
+		8475DE9E196E8D0D0097EF4A /* libMobileGestalt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libMobileGestalt.dylib; path = usr/lib/libMobileGestalt.dylib; sourceTree = SDKROOT; };
+		84AA5EA9196EAF0200A9EE6A /* LSStatusBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LSStatusBarItem.h; sourceTree = "<group>"; };
+		84AA5EAB196EAF7B00A9EE6A /* libstatusbar.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libstatusbar.dylib; path = ../../../Desktop/libstatusbar.dylib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8475DE54196E70710097EF4A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84AA5EAC196EAF7B00A9EE6A /* libstatusbar.dylib in Frameworks */,
+				8475DE9F196E8D0D0097EF4A /* libMobileGestalt.dylib in Frameworks */,
+				8475DE9C196E7A780097EF4A /* UIKit.framework in Frameworks */,
+				8475DE9B196E70DC0097EF4A /* libsubstrate.dylib in Frameworks */,
+				8475DE5C196E70710097EF4A /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8475DE72196E70870097EF4A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8475DE77196E70870097EF4A /* Foundation.framework in Frameworks */,
+				8475DE7B196E70870097EF4A /* Preferences.framework in Frameworks */,
+				8475DE79196E70870097EF4A /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8475DE4D196E70710097EF4A = {
+			isa = PBXGroup;
+			children = (
+				8475DE5D196E70720097EF4A /* StatusModifier */,
+				8475DE7C196E70870097EF4A /* StatusModifierLoader */,
+				8475DE5A196E70710097EF4A /* Frameworks */,
+				8475DE59196E70710097EF4A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8475DE59196E70710097EF4A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8475DE58196E70710097EF4A /* StatusModifier.dylib */,
+				8475DE76196E70870097EF4A /* StatusModifierLoader.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8475DE5A196E70710097EF4A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				84AA5EAB196EAF7B00A9EE6A /* libstatusbar.dylib */,
+				8475DE9E196E8D0D0097EF4A /* libMobileGestalt.dylib */,
+				8475DE9A196E70DC0097EF4A /* libsubstrate.dylib */,
+				8475DE5B196E70710097EF4A /* Foundation.framework */,
+				8475DE78196E70870097EF4A /* UIKit.framework */,
+				8475DE7A196E70870097EF4A /* Preferences.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8475DE5D196E70720097EF4A /* StatusModifier */ = {
+			isa = PBXGroup;
+			children = (
+				8475DE65196E70720097EF4A /* StatusModifier.xm */,
+				8475DE66196E70720097EF4A /* StatusModifier.mm */,
+				8475DE5E196E70720097EF4A /* Package */,
+				8475DE62196E70720097EF4A /* Supporting Files */,
+				8475DE9D196E8CAE0097EF4A /* libMobileGestalt.h */,
+				84AA5EA9196EAF0200A9EE6A /* LSStatusBarItem.h */,
+			);
+			path = StatusModifier;
+			sourceTree = "<group>";
+		};
+		8475DE5E196E70720097EF4A /* Package */ = {
+			isa = PBXGroup;
+			children = (
+				8475DE5F196E70720097EF4A /* DEBIAN */,
+				8475DE68196E70720097EF4A /* Library */,
+			);
+			name = Package;
+			sourceTree = "<group>";
+		};
+		8475DE5F196E70720097EF4A /* DEBIAN */ = {
+			isa = PBXGroup;
+			children = (
+				8475DE60196E70720097EF4A /* control.txt */,
+				8475DE61196E70720097EF4A /* control */,
+			);
+			name = DEBIAN;
+			sourceTree = "<group>";
+		};
+		8475DE62196E70720097EF4A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8475DE63196E70720097EF4A /* PackageVersion.plist */,
+				8475DE64196E70720097EF4A /* StatusModifier-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8475DE68196E70720097EF4A /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				8475DE69196E70720097EF4A /* MobileSubstrate */,
+			);
+			name = Library;
+			sourceTree = "<group>";
+		};
+		8475DE69196E70720097EF4A /* MobileSubstrate */ = {
+			isa = PBXGroup;
+			children = (
+				8475DE6A196E70720097EF4A /* DynamicLibraries */,
+			);
+			name = MobileSubstrate;
+			sourceTree = "<group>";
+		};
+		8475DE6A196E70720097EF4A /* DynamicLibraries */ = {
+			isa = PBXGroup;
+			children = (
+				8475DE6B196E70720097EF4A /* StatusModifier.plist */,
+			);
+			name = DynamicLibraries;
+			sourceTree = "<group>";
+		};
+		8475DE7C196E70870097EF4A /* StatusModifierLoader */ = {
+			isa = PBXGroup;
+			children = (
+				8475DE84196E70870097EF4A /* StatusModifierLoaderController.h */,
+				8475DE85196E70870097EF4A /* StatusModifierLoaderController.m */,
+				8475DE7D196E70870097EF4A /* Package */,
+				8475DE81196E70870097EF4A /* Supporting Files */,
+			);
+			path = StatusModifierLoader;
+			sourceTree = "<group>";
+		};
+		8475DE7D196E70870097EF4A /* Package */ = {
+			isa = PBXGroup;
+			children = (
+				8475DE7E196E70870097EF4A /* DEBIAN */,
+				8475DE87196E70870097EF4A /* Library */,
+			);
+			name = Package;
+			sourceTree = "<group>";
+		};
+		8475DE7E196E70870097EF4A /* DEBIAN */ = {
+			isa = PBXGroup;
+			children = (
+				8475DE7F196E70870097EF4A /* control.txt */,
+				8475DE80196E70870097EF4A /* control */,
+			);
+			name = DEBIAN;
+			sourceTree = "<group>";
+		};
+		8475DE81196E70870097EF4A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8475DE82196E70870097EF4A /* PackageVersion.plist */,
+				8475DE83196E70870097EF4A /* StatusModifierLoader-Info.plist */,
+				8475DE95196E70870097EF4A /* StatusModifierLoader-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8475DE87196E70870097EF4A /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				8475DE88196E70870097EF4A /* PreferenceLoader */,
+				8475DE8B196E70870097EF4A /* PreferenceBundles */,
+			);
+			name = Library;
+			sourceTree = "<group>";
+		};
+		8475DE88196E70870097EF4A /* PreferenceLoader */ = {
+			isa = PBXGroup;
+			children = (
+				8475DE89196E70870097EF4A /* Preferences */,
+			);
+			name = PreferenceLoader;
+			sourceTree = "<group>";
+		};
+		8475DE89196E70870097EF4A /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				8475DE8A196E70870097EF4A /* StatusModifierLoader.plist */,
+			);
+			name = Preferences;
+			sourceTree = "<group>";
+		};
+		8475DE8B196E70870097EF4A /* PreferenceBundles */ = {
+			isa = PBXGroup;
+			children = (
+				8475DE8C196E70870097EF4A /* ___PACKAGENAME___.bundle */,
+			);
+			name = PreferenceBundles;
+			sourceTree = "<group>";
+		};
+		8475DE8C196E70870097EF4A /* ___PACKAGENAME___.bundle */ = {
+			isa = PBXGroup;
+			children = (
+				8475DE8D196E70870097EF4A /* StatusModifierLoader.plist */,
+				8475DE8E196E70870097EF4A /* StatusModifierLoaderIcon.png */,
+				8475DE8F196E70870097EF4A /* StatusModifierLoaderIcon@2x.png */,
+			);
+			name = "___PACKAGENAME___.bundle";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8475DE55196E70710097EF4A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84AA5EAA196EAF0200A9EE6A /* LSStatusBarItem.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8475DE73196E70870097EF4A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8475DE57196E70710097EF4A /* StatusModifier */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8475DE6E196E70720097EF4A /* Build configuration list for PBXNativeTarget "StatusModifier" */;
+			buildPhases = (
+				8475DE52196E70710097EF4A /* ShellScript */,
+				8475DE53196E70710097EF4A /* Sources */,
+				8475DE54196E70710097EF4A /* Frameworks */,
+				8475DE55196E70710097EF4A /* Headers */,
+				8475DE56196E70710097EF4A /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StatusModifier;
+			productName = StatusModifierOpen;
+			productReference = 8475DE58196E70710097EF4A /* StatusModifier.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		8475DE75196E70870097EF4A /* StatusModifierLoader */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8475DE96196E70870097EF4A /* Build configuration list for PBXNativeTarget "StatusModifierLoader" */;
+			buildPhases = (
+				8475DE71196E70870097EF4A /* Sources */,
+				8475DE72196E70870097EF4A /* Frameworks */,
+				8475DE73196E70870097EF4A /* Headers */,
+				8475DE74196E70870097EF4A /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StatusModifierLoader;
+			productName = StatusModifierLoader;
+			productReference = 8475DE76196E70870097EF4A /* StatusModifierLoader.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8475DE4E196E70710097EF4A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+			};
+			buildConfigurationList = 8475DE51196E70710097EF4A /* Build configuration list for PBXProject "StatusModifier" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 8475DE4D196E70710097EF4A;
+			productRefGroup = 8475DE59196E70710097EF4A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8475DE57196E70710097EF4A /* StatusModifier */,
+				8475DE75196E70870097EF4A /* StatusModifierLoader */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		8475DE52196E70710097EF4A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp-logos";
+		};
+		8475DE56196E70710097EF4A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp";
+		};
+		8475DE74196E70870097EF4A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8475DE53196E70710097EF4A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8475DE67196E70720097EF4A /* StatusModifier.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8475DE71196E70870097EF4A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8475DE86196E70870097EF4A /* StatusModifierLoaderController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		8475DE6C196E70720097EF4A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_ENABLE_MODULES = YES;
+				COPY_PHASE_STRIP = NO;
+				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(iOSOpenDevPath)/frameworks/**",
+					"$(SDKROOT)/System/Library/PrivateFrameworks",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(iOSOpenDevPath)/include/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = "$(iOSOpenDevPath)/lib/**";
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = NO;
+				iOSOpenDevPath = /opt/iOSOpenDev;
+			};
+			name = Debug;
+		};
+		8475DE6D196E70720097EF4A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_ENABLE_MODULES = YES;
+				COPY_PHASE_STRIP = YES;
+				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(iOSOpenDevPath)/frameworks/**",
+					"$(SDKROOT)/System/Library/PrivateFrameworks",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(iOSOpenDevPath)/include/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = "$(iOSOpenDevPath)/lib/**";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				iOSOpenDevPath = /opt/iOSOpenDev;
+			};
+			name = Release;
+		};
+		8475DE6F196E70720097EF4A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "StatusModifier/StatusModifier-Prefix.pch";
+				INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/iOSOpenDev/lib,
+					/Users/admin/Desktop,
+				);
+				PRODUCT_NAME = StatusModifier;
+				iOSOpenDevBuildPackageOnAnyBuild = NO;
+				iOSOpenDevCopyOnBuild = NO;
+				iOSOpenDevDevice = "";
+				iOSOpenDevInstallOnAnyBuild = NO;
+				iOSOpenDevInstallOnProfiling = YES;
+				iOSOpenDevRespringOnInstall = YES;
+				iOSOpenDevUsePackageVersionPList = YES;
+			};
+			name = Debug;
+		};
+		8475DE70196E70720097EF4A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "StatusModifier/StatusModifier-Prefix.pch";
+				INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/iOSOpenDev/lib,
+					/Users/admin/Desktop,
+				);
+				PRODUCT_NAME = StatusModifier;
+				iOSOpenDevBuildPackageOnAnyBuild = NO;
+				iOSOpenDevCopyOnBuild = NO;
+				iOSOpenDevDevice = "";
+				iOSOpenDevInstallOnAnyBuild = NO;
+				iOSOpenDevInstallOnProfiling = YES;
+				iOSOpenDevRespringOnInstall = YES;
+				iOSOpenDevUsePackageVersionPList = YES;
+			};
+			name = Release;
+		};
+		8475DE97196E70870097EF4A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CODE_SIGN_IDENTITY = "";
+				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(iOSOpenDevPath)/frameworks/**",
+					"$(SDKROOT)/System/Library/PrivateFrameworks",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "StatusModifierLoader/StatusModifierLoader-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				HEADER_SEARCH_PATHS = "$(iOSOpenDevPath)/include/**";
+				INFOPLIST_FILE = "StatusModifierLoader/StatusModifierLoader-Info.plist";
+				INSTALL_PATH = /Library/PreferenceBundles;
+				LIBRARY_SEARCH_PATHS = "$(iOSOpenDevPath)/lib/**";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+				iOSOpenDevBuildPackageOnAnyBuild = NO;
+				iOSOpenDevCopyOnBuild = NO;
+				iOSOpenDevDevice = "";
+				iOSOpenDevInstallOnAnyBuild = NO;
+				iOSOpenDevInstallOnProfiling = YES;
+				iOSOpenDevPath = /opt/iOSOpenDev;
+				iOSOpenDevRespringOnInstall = YES;
+				iOSOpenDevUsePackageVersionPList = YES;
+			};
+			name = Debug;
+		};
+		8475DE98196E70870097EF4A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CODE_SIGN_IDENTITY = "";
+				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(iOSOpenDevPath)/frameworks/**",
+					"$(SDKROOT)/System/Library/PrivateFrameworks",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "StatusModifierLoader/StatusModifierLoader-Prefix.pch";
+				HEADER_SEARCH_PATHS = "$(iOSOpenDevPath)/include/**";
+				INFOPLIST_FILE = "StatusModifierLoader/StatusModifierLoader-Info.plist";
+				INSTALL_PATH = /Library/PreferenceBundles;
+				LIBRARY_SEARCH_PATHS = "$(iOSOpenDevPath)/lib/**";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+				iOSOpenDevBuildPackageOnAnyBuild = NO;
+				iOSOpenDevCopyOnBuild = NO;
+				iOSOpenDevDevice = "";
+				iOSOpenDevInstallOnAnyBuild = NO;
+				iOSOpenDevInstallOnProfiling = YES;
+				iOSOpenDevPath = /opt/iOSOpenDev;
+				iOSOpenDevRespringOnInstall = YES;
+				iOSOpenDevUsePackageVersionPList = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8475DE51196E70710097EF4A /* Build configuration list for PBXProject "StatusModifier" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8475DE6C196E70720097EF4A /* Debug */,
+				8475DE6D196E70720097EF4A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8475DE6E196E70720097EF4A /* Build configuration list for PBXNativeTarget "StatusModifier" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8475DE6F196E70720097EF4A /* Debug */,
+				8475DE70196E70720097EF4A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8475DE96196E70870097EF4A /* Build configuration list for PBXNativeTarget "StatusModifierLoader" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8475DE97196E70870097EF4A /* Debug */,
+				8475DE98196E70870097EF4A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8475DE4E196E70710097EF4A /* Project object */;
+}
