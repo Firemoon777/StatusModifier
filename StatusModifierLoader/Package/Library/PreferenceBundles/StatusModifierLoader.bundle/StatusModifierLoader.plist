@@ -325,6 +325,8 @@
 			<string>SMiPod5</string>
 			<key>label</key>
 			<string>SMiPod5</string>
+			<key>icon</key>
+			<string>percentage.png</string>
 			<key>PostNotification</key>
 			<string>ru.firemoon777.StatusModifierLoader-preferencesChanged</string>
 		</dict>
@@ -337,10 +339,14 @@
 			<string>LOCAL_IP</string>
 			<key>footerText</key>
 			<string>LOCAL_IP_FOOTER</string>
+			<key>icon</key>
+			<string>ip.png</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSSwitchCell</string>
+			<key>icon</key>
+			<string>ip.png</string>
 			<key>default</key>
 			<true/>
 			<key>defaults</key>

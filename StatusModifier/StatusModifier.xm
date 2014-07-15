@@ -118,6 +118,7 @@ NSArray *localIP;
     if(GET_BOOL(@"SMRAM"))
         showTime = [showTime stringByAppendingString:[NSString stringWithFormat:@" '%iMB'", SMFreeMemory]];
     
+        
     [timeItemDateFormatter setDateFormat:showTime];
     
     %orig;
@@ -229,6 +230,9 @@ NSArray *localIP;
     SMFreeMemory = mem_free / 1024 / 1024;
 }
 
+/*
+ * Gets local IP
+ */
 %new -(void)updateLocalIP
 {
     [settings setObject:[[[NSHost currentHost] addresses] objectAtIndex:1] forKey:@"LocalIP"];
@@ -244,14 +248,9 @@ LSStatusBarItem *mute;
 
 %hook SBMediaController
 
-/*- (void)_systemMuteChanged:(id)arg1
-{
-    %orig;
-    bool ringerSwitchState = MSHookIvar<bool>(self, "_ringerMuted");
-    mute.visible = !ringerSwitchState;
-    
-}*/
-
+/*
+ * Show mute icon
+ */
 - (id)init
 {
     id result = %orig;
@@ -269,6 +268,9 @@ LSStatusBarItem *mute;
 }
 %end
 
+/*
+ * Fix for CCToggles
+ */
 %hook SBCCSettingsSectionController
 - (void)_setMuted:(_Bool)arg1
 {
