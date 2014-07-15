@@ -216,29 +216,41 @@ NSMutableDictionary *settings;
 %end
 
 // ======================================== //
-// ============== SpringBoard ============= //
+// ================== Mute ================ //
 // ======================================== //
-
-%hook SpringBoard
 
 BOOL SBMute;
 LSStatusBarItem *mute;
 
--(void)_updateRingerState:(int)state withVisuals:(BOOL)visuals updatePreferenceRegister:(BOOL)aRegister
+%hook SBMediaController
+
+- (void)_systemMuteChanged:(id)arg1
 {
     %orig;
-    if(SBMute) mute.visible = !state;
+    bool ringerSwitchState = MSHookIvar<bool>(self, "_ringerMuted");
+    mute.visible = !ringerSwitchState;
 }
 
--(void)applicationDidFinishLaunching:(id)application
+- (id)init
 {
-    %orig;
-    NSDictionary *data = [[NSDictionary alloc] initWithContentsOfFile:PREFS_FILE];
-    SBMute = [[data objectForKey:@"SMMute"] boolValue];
-    mute = [[LSStatusBarItem alloc] initWithIdentifier: @"statusmodifier.mute" alignment: StatusBarAlignmentRight];
-    mute.imageName = @"mute";
-    int ringerSwitchState = MSHookIvar<int>(self, "_ringerSwitchState");
-    mute.visible = (SBMute && !ringerSwitchState);
-    [data release];
+    id result = %orig;
+    if(result)
+    {
+        NSDictionary *data = [[NSDictionary alloc] initWithContentsOfFile:PREFS_FILE];
+        SBMute = [[data objectForKey:@"SMMute"] boolValue];
+        mute = [[LSStatusBarItem alloc] initWithIdentifier: @"statusmodifier.mute" alignment: StatusBarAlignmentRight];
+        mute.imageName = @"mute";
+        bool ringerSwitchState = MSHookIvar<bool>(self, "_ringerMuted");
+        mute.visible = (SBMute && !ringerSwitchState);
+        [data release];
+    }
+    return result;
+}
+%end
+
+%hook SBCCSettingsSectionController
+- (void)_setMuted:(_Bool)arg1
+{
+    mute.visible = arg1;
 }
 %end

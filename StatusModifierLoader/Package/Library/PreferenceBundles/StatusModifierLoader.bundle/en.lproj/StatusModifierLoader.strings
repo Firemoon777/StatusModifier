@@ -1,5 +1,5 @@
 "TIME_SETTINGS_HEADER" = "Time settings";
-"TIME_SETTINGS_TUTORIAL" = "Popular formats:\nHH:mm:ss\nhh:mm:ss a\nHH:mm:ss d/MM/yy\nYou can read more in Time Format Reference.";
+"TIME_SETTINGS_TUTORIAL" = "You can read more in Time Format Reference.\nFor millitary time use switch in \"Date and time\"";
 "FREEMEM_REFRESHRATE" = "RAM Info";
 "meminfo" = "Enabled";
 "FREEMEM_FOOTER" = "Enables free ram info after time.";

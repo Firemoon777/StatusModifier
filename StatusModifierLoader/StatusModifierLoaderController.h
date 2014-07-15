@@ -20,5 +20,6 @@
 - (void)followOnTwitter:(PSSpecifier*)specifier;
 - (void)donate:(PSSpecifier*)specifier;
 - (void)writeMessage:(PSSpecifier*)specifier;
+- (void)openGitHub:(PSSpecifier*)specifier;
 
 @end

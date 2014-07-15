@@ -31,6 +31,38 @@
 			<string>PSEditTextCell</string>
 		</dict>
 		<dict>
+			<key>get</key>
+			<string>getValueForSpecifier:</string>
+			<key>set</key>
+			<string>setValue:forSpecifier:</string>
+			<key>detail</key>
+			<string>PSListItemsController</string>
+			<key>label</key>
+			<string>Popular formats</string>
+			<key>defaults</key>
+			<string>ru.firemoon777.StatusModifierLoader</string>
+			<key>key</key>
+			<string>SMTime</string>
+			<key>cell</key>
+			<string>PSLinkListCell</string>
+			<key>validValues</key>
+			<array>
+				<string>HH:mm </string>
+				<string>HH:mm:ss </string>
+				<string>d/MM/yy HH:mm:ss </string>
+				<string>d/MM HH:mm:ss</string>
+				<string>d/MM HH:mm</string>
+			</array>
+			<key>validTitles</key>
+			<array>
+				<string>17:32</string>
+				<string>17:32:56</string>
+				<string>15/07/14 17:32:56</string>
+				<string>15/07 17:32:56</string>
+				<string>15/07 17:32</string>
+			</array>
+		</dict>
+		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>isStaticText</key>
@@ -363,6 +395,18 @@
 			<string>imessage.png</string>
 			<key>label</key>
 			<string>IMESSAGE</string>
+		</dict>
+		<dict>
+			<key>alignment</key>
+			<string>2</string>
+			<key>action</key>
+			<string>openGitHub:</string>
+			<key>icon</key>
+			<string>github.png</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>GITHUB</string>
 		</dict>
 		<dict>
 			<key>cell</key>

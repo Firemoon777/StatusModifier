@@ -76,6 +76,8 @@
 
         NSLog(@"saved key '%@' with value '%@' to plist '%@'", specifierKey, value, plistPath);
     }
+    if([specifierKey isEqualToString:@"SMTime"])
+        [self reloadSpecifiers];
 }
 
 - (id)initDictionaryWithFile:(NSMutableString**)plistPath asMutable:(BOOL)asMutable
@@ -109,9 +111,14 @@
 {
 	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:kUrl_MakeDonation]];
 }
--(void)info:(PSSpecifier *)spec
+- (void)info:(PSSpecifier *)spec
 {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.unicode.org/reports/tr35/tr35-25.html#Date_Format_Patterns"]];
+}
+
+- (void)openGitHub:(PSSpecifier*)specifier
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/Firemoon777/StatusModifier"]];
 }
 
 - (void)writeMessage:(PSSpecifier *)specifier
