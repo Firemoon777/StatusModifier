@@ -5,18 +5,20 @@
 /*
  * Name: StatusModifier
  * Author: Vladimir Turov (Firemoon777)
- * Version: 3.0
+ * Version: 3.1
  * Dependency: iOS7+, libstatusbar, preferenceloader, mobilesubstrate
  * Summary: Tweak replaces time in status bar with custom info.
  */
 
-#import <UIKit/UIKit.h>
 #import <mach/mach.h>
-#import <mach/mach_host.h>
-#import <sys/utsname.h>
 #import <sys/types.h>
-#import "libMobileGestalt.h"
+#import <sys/utsname.h>
+#import <UIKit/UIKit.h>
+#import <mach/mach_host.h>
 #import "LSStatusBarItem.h"
+#import "libMobileGestalt.h"
+#import <CoreTelephony/CTCarrier.h>
+#import <CoreTelephony/CTTelephonyNetworkInfo.h>
 
 #define PREFS_FILE @"/var/mobile/Library/Preferences/ru.firemoon777.StatusModifierLoader.plist"
 #define GET_BOOL(PARAM) [[settings objectForKey:(PARAM)] boolValue]
@@ -25,11 +27,13 @@
 @interface SBStatusBarStateAggregator : NSObject
 
 -(void)refreshMemory;
+-(void)updateLocalIP;
 
 @end
 
 unsigned SMFreeMemory;
 NSMutableDictionary *settings;
+NSArray *localIP;
 
 // ======================================== //
 // =============== Statusbar ============== //
@@ -68,7 +72,9 @@ NSMutableDictionary *settings;
         CHECK_AND_SET(@"SMRotation", @YES)
         CHECK_AND_SET(@"SMMute", @YES)
         CHECK_AND_SET(@"SMDataSpinner", @YES)
-        CHECK_AND_SET(@"SMDoNotDisturb", @YES);
+        CHECK_AND_SET(@"SMDoNotDisturb", @YES)
+        CHECK_AND_SET(@"SMLocalIP", @NO)
+            
         if([[settings objectForKey:@"SMTime"] isEqualToString:@""])
             [settings setObject:@"HH:mm" forKey:@"SMTime"];
             
@@ -82,6 +88,11 @@ NSMutableDictionary *settings;
                                            selector:@selector(refreshMemory)
                                            userInfo:nil
                                             repeats:YES];
+        }
+        if(GET_BOOL(@"SMLocalIP"))
+        {
+            [self updateLocalIP];
+            [NSTimer scheduledTimerWithTimeInterval:10*60 target:self selector:@selector(updateLocalIP) userInfo:nil repeats:YES];
         }
     }
     
@@ -99,9 +110,14 @@ NSMutableDictionary *settings;
     // Setup custom date
     NSString *showTime = [settings objectForKey:@"SMTime"];
     
+    // Add local IP info if necessary
+    if(GET_BOOL(@"SMLocalIP"))
+        showTime = [showTime stringByAppendingString:[NSString stringWithFormat:@" '%@'", [settings objectForKey:@"LocalIP"]]];
+    
     // Add RAM info if necessary
     if(GET_BOOL(@"SMRAM"))
         showTime = [showTime stringByAppendingString:[NSString stringWithFormat:@" '%iMB'", SMFreeMemory]];
+    
     [timeItemDateFormatter setDateFormat:showTime];
     
     %orig;
@@ -213,6 +229,10 @@ NSMutableDictionary *settings;
     SMFreeMemory = mem_free / 1024 / 1024;
 }
 
+%new -(void)updateLocalIP
+{
+    [settings setObject:[[[NSHost currentHost] addresses] objectAtIndex:1] forKey:@"LocalIP"];
+}
 %end
 
 // ======================================== //
@@ -224,12 +244,13 @@ LSStatusBarItem *mute;
 
 %hook SBMediaController
 
-- (void)_systemMuteChanged:(id)arg1
+/*- (void)_systemMuteChanged:(id)arg1
 {
     %orig;
     bool ringerSwitchState = MSHookIvar<bool>(self, "_ringerMuted");
     mute.visible = !ringerSwitchState;
-}
+    
+}*/
 
 - (id)init
 {

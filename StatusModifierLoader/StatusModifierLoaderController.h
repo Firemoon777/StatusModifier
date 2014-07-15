@@ -13,6 +13,7 @@
 
 @interface StatusModifierLoaderController : PSListController <UIAlertViewDelegate, MFMessageComposeViewControllerDelegate>
 {
+
 }
 
 - (id)getValueForSpecifier:(PSSpecifier*)specifier;

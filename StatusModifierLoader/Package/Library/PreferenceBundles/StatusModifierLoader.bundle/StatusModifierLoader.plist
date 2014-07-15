@@ -334,6 +334,30 @@
 			<key>isStaticText</key>
 			<true/>
 			<key>label</key>
+			<string>LOCAL_IP</string>
+			<key>footerText</key>
+			<string>LOCAL_IP_FOOTER</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>ru.firemoon777.StatusModifierLoader</string>
+			<key>key</key>
+			<string>SMLocalIP</string>
+			<key>label</key>
+			<string>SMLocalIP</string>
+			<key>PostNotification</key>
+			<string>ru.firemoon777.StatusModifierLoader-preferencesChanged</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>isStaticText</key>
+			<true/>
+			<key>label</key>
 			<string>USEFUL_BUTTONS</string>
 		</dict>
 		<dict>

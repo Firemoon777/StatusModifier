@@ -11,13 +11,15 @@
 
 
 
-#import <UIKit/UIKit.h>
 #import <mach/mach.h>
-#import <mach/mach_host.h>
-#import <sys/utsname.h>
 #import <sys/types.h>
-#import "libMobileGestalt.h"
+#import <sys/utsname.h>
+#import <UIKit/UIKit.h>
+#import <mach/mach_host.h>
 #import "LSStatusBarItem.h"
+#import "libMobileGestalt.h"
+#import <CoreTelephony/CTCarrier.h>
+#import <CoreTelephony/CTTelephonyNetworkInfo.h>
 
 #define PREFS_FILE @"/var/mobile/Library/Preferences/ru.firemoon777.StatusModifierLoader.plist"
 #define GET_BOOL(PARAM) [[settings objectForKey:(PARAM)] boolValue]
@@ -26,11 +28,13 @@
 @interface SBStatusBarStateAggregator : NSObject
 
 -(void)refreshMemory;
+-(void)updateLocalIP;
 
 @end
 
 unsigned SMFreeMemory;
 NSMutableDictionary *settings;
+NSArray *localIP;
 
 
 
@@ -39,9 +43,9 @@ NSMutableDictionary *settings;
 #include <logos/logos.h>
 #include <substrate.h>
 @class SBCCSettingsSectionController; @class SBStatusBarStateAggregator; @class SBMediaController; 
-static id (*_logos_orig$_ungrouped$SBStatusBarStateAggregator$init)(SBStatusBarStateAggregator*, SEL); static id _logos_method$_ungrouped$SBStatusBarStateAggregator$init(SBStatusBarStateAggregator*, SEL); static void (*_logos_orig$_ungrouped$SBStatusBarStateAggregator$_updateTimeItems)(SBStatusBarStateAggregator*, SEL); static void _logos_method$_ungrouped$SBStatusBarStateAggregator$_updateTimeItems(SBStatusBarStateAggregator*, SEL); static void (*_logos_orig$_ungrouped$SBStatusBarStateAggregator$_restartTimeItemTimer)(SBStatusBarStateAggregator*, SEL); static void _logos_method$_ungrouped$SBStatusBarStateAggregator$_restartTimeItemTimer(SBStatusBarStateAggregator*, SEL); static BOOL (*_logos_orig$_ungrouped$SBStatusBarStateAggregator$_setItem$enabled$)(SBStatusBarStateAggregator*, SEL, int, BOOL); static BOOL _logos_method$_ungrouped$SBStatusBarStateAggregator$_setItem$enabled$(SBStatusBarStateAggregator*, SEL, int, BOOL); static void _logos_method$_ungrouped$SBStatusBarStateAggregator$refreshMemory(SBStatusBarStateAggregator*, SEL); static void (*_logos_orig$_ungrouped$SBMediaController$_systemMuteChanged$)(SBMediaController*, SEL, id); static void _logos_method$_ungrouped$SBMediaController$_systemMuteChanged$(SBMediaController*, SEL, id); static id (*_logos_orig$_ungrouped$SBMediaController$init)(SBMediaController*, SEL); static id _logos_method$_ungrouped$SBMediaController$init(SBMediaController*, SEL); static void (*_logos_orig$_ungrouped$SBCCSettingsSectionController$_setMuted$)(SBCCSettingsSectionController*, SEL, _Bool); static void _logos_method$_ungrouped$SBCCSettingsSectionController$_setMuted$(SBCCSettingsSectionController*, SEL, _Bool); 
+static id (*_logos_orig$_ungrouped$SBStatusBarStateAggregator$init)(SBStatusBarStateAggregator*, SEL); static id _logos_method$_ungrouped$SBStatusBarStateAggregator$init(SBStatusBarStateAggregator*, SEL); static void (*_logos_orig$_ungrouped$SBStatusBarStateAggregator$_updateTimeItems)(SBStatusBarStateAggregator*, SEL); static void _logos_method$_ungrouped$SBStatusBarStateAggregator$_updateTimeItems(SBStatusBarStateAggregator*, SEL); static void (*_logos_orig$_ungrouped$SBStatusBarStateAggregator$_restartTimeItemTimer)(SBStatusBarStateAggregator*, SEL); static void _logos_method$_ungrouped$SBStatusBarStateAggregator$_restartTimeItemTimer(SBStatusBarStateAggregator*, SEL); static BOOL (*_logos_orig$_ungrouped$SBStatusBarStateAggregator$_setItem$enabled$)(SBStatusBarStateAggregator*, SEL, int, BOOL); static BOOL _logos_method$_ungrouped$SBStatusBarStateAggregator$_setItem$enabled$(SBStatusBarStateAggregator*, SEL, int, BOOL); static void _logos_method$_ungrouped$SBStatusBarStateAggregator$refreshMemory(SBStatusBarStateAggregator*, SEL); static void _logos_method$_ungrouped$SBStatusBarStateAggregator$updateLocalIP(SBStatusBarStateAggregator*, SEL); static id (*_logos_orig$_ungrouped$SBMediaController$init)(SBMediaController*, SEL); static id _logos_method$_ungrouped$SBMediaController$init(SBMediaController*, SEL); static void (*_logos_orig$_ungrouped$SBCCSettingsSectionController$_setMuted$)(SBCCSettingsSectionController*, SEL, _Bool); static void _logos_method$_ungrouped$SBCCSettingsSectionController$_setMuted$(SBCCSettingsSectionController*, SEL, _Bool); 
 
-#line 38 "/Users/admin/Dropbox/Проекты/StatusModifier/StatusModifier/StatusModifier.xm"
+#line 42 "/Users/admin/Dropbox/Проекты/StatusModifier/StatusModifier/StatusModifier.xm"
 
 
 
@@ -75,7 +79,9 @@ static id _logos_method$_ungrouped$SBStatusBarStateAggregator$init(SBStatusBarSt
         CHECK_AND_SET(@"SMRotation", @YES)
         CHECK_AND_SET(@"SMMute", @YES)
         CHECK_AND_SET(@"SMDataSpinner", @YES)
-        CHECK_AND_SET(@"SMDoNotDisturb", @YES);
+        CHECK_AND_SET(@"SMDoNotDisturb", @YES)
+        CHECK_AND_SET(@"SMLocalIP", @NO)
+            
         if([[settings objectForKey:@"SMTime"] isEqualToString:@""])
             [settings setObject:@"HH:mm" forKey:@"SMTime"];
             
@@ -89,6 +95,11 @@ static id _logos_method$_ungrouped$SBStatusBarStateAggregator$init(SBStatusBarSt
                                            selector:@selector(refreshMemory)
                                            userInfo:nil
                                             repeats:YES];
+        }
+        if(GET_BOOL(@"SMLocalIP"))
+        {
+            [self updateLocalIP];
+            [NSTimer scheduledTimerWithTimeInterval:10*60 target:self selector:@selector(updateLocalIP) userInfo:nil repeats:YES];
         }
     }
     
@@ -107,8 +118,13 @@ static void _logos_method$_ungrouped$SBStatusBarStateAggregator$_updateTimeItems
     NSString *showTime = [settings objectForKey:@"SMTime"];
     
     
+    if(GET_BOOL(@"SMLocalIP"))
+        showTime = [showTime stringByAppendingString:[NSString stringWithFormat:@" '%@'", [settings objectForKey:@"LocalIP"]]];
+    
+    
     if(GET_BOOL(@"SMRAM"))
         showTime = [showTime stringByAppendingString:[NSString stringWithFormat:@" '%iMB'", SMFreeMemory]];
+    
     [timeItemDateFormatter setDateFormat:showTime];
     
     _logos_orig$_ungrouped$SBStatusBarStateAggregator$_updateTimeItems(self, _cmd);
@@ -221,6 +237,10 @@ static BOOL _logos_method$_ungrouped$SBStatusBarStateAggregator$_setItem$enabled
 }
 
 
+ static void _logos_method$_ungrouped$SBStatusBarStateAggregator$updateLocalIP(SBStatusBarStateAggregator* self, SEL _cmd) {
+    [settings setObject:[[[NSHost currentHost] addresses] objectAtIndex:1] forKey:@"LocalIP"];
+}
+
 
 
 
@@ -232,11 +252,12 @@ LSStatusBarItem *mute;
 
 
 
-static void _logos_method$_ungrouped$SBMediaController$_systemMuteChanged$(SBMediaController* self, SEL _cmd, id arg1) {
-    _logos_orig$_ungrouped$SBMediaController$_systemMuteChanged$(self, _cmd, arg1);
-    bool ringerSwitchState = MSHookIvar<bool>(self, "_ringerMuted");
-    mute.visible = !ringerSwitchState;
-}
+
+
+
+
+
+
 
 
 static id _logos_method$_ungrouped$SBMediaController$init(SBMediaController* self, SEL _cmd) {
@@ -262,5 +283,5 @@ static void _logos_method$_ungrouped$SBCCSettingsSectionController$_setMuted$(SB
 }
 
 static __attribute__((constructor)) void _logosLocalInit() {
-{Class _logos_class$_ungrouped$SBStatusBarStateAggregator = objc_getClass("SBStatusBarStateAggregator"); MSHookMessageEx(_logos_class$_ungrouped$SBStatusBarStateAggregator, @selector(init), (IMP)&_logos_method$_ungrouped$SBStatusBarStateAggregator$init, (IMP*)&_logos_orig$_ungrouped$SBStatusBarStateAggregator$init);MSHookMessageEx(_logos_class$_ungrouped$SBStatusBarStateAggregator, @selector(_updateTimeItems), (IMP)&_logos_method$_ungrouped$SBStatusBarStateAggregator$_updateTimeItems, (IMP*)&_logos_orig$_ungrouped$SBStatusBarStateAggregator$_updateTimeItems);MSHookMessageEx(_logos_class$_ungrouped$SBStatusBarStateAggregator, @selector(_restartTimeItemTimer), (IMP)&_logos_method$_ungrouped$SBStatusBarStateAggregator$_restartTimeItemTimer, (IMP*)&_logos_orig$_ungrouped$SBStatusBarStateAggregator$_restartTimeItemTimer);MSHookMessageEx(_logos_class$_ungrouped$SBStatusBarStateAggregator, @selector(_setItem:enabled:), (IMP)&_logos_method$_ungrouped$SBStatusBarStateAggregator$_setItem$enabled$, (IMP*)&_logos_orig$_ungrouped$SBStatusBarStateAggregator$_setItem$enabled$);{ char _typeEncoding[1024]; unsigned int i = 0; _typeEncoding[i] = 'v'; i += 1; _typeEncoding[i] = '@'; i += 1; _typeEncoding[i] = ':'; i += 1; _typeEncoding[i] = '\0'; class_addMethod(_logos_class$_ungrouped$SBStatusBarStateAggregator, @selector(refreshMemory), (IMP)&_logos_method$_ungrouped$SBStatusBarStateAggregator$refreshMemory, _typeEncoding); }Class _logos_class$_ungrouped$SBMediaController = objc_getClass("SBMediaController"); MSHookMessageEx(_logos_class$_ungrouped$SBMediaController, @selector(_systemMuteChanged:), (IMP)&_logos_method$_ungrouped$SBMediaController$_systemMuteChanged$, (IMP*)&_logos_orig$_ungrouped$SBMediaController$_systemMuteChanged$);MSHookMessageEx(_logos_class$_ungrouped$SBMediaController, @selector(init), (IMP)&_logos_method$_ungrouped$SBMediaController$init, (IMP*)&_logos_orig$_ungrouped$SBMediaController$init);Class _logos_class$_ungrouped$SBCCSettingsSectionController = objc_getClass("SBCCSettingsSectionController"); MSHookMessageEx(_logos_class$_ungrouped$SBCCSettingsSectionController, @selector(_setMuted:), (IMP)&_logos_method$_ungrouped$SBCCSettingsSectionController$_setMuted$, (IMP*)&_logos_orig$_ungrouped$SBCCSettingsSectionController$_setMuted$);} }
-#line 257 "/Users/admin/Dropbox/Проекты/StatusModifier/StatusModifier/StatusModifier.xm"
+{Class _logos_class$_ungrouped$SBStatusBarStateAggregator = objc_getClass("SBStatusBarStateAggregator"); MSHookMessageEx(_logos_class$_ungrouped$SBStatusBarStateAggregator, @selector(init), (IMP)&_logos_method$_ungrouped$SBStatusBarStateAggregator$init, (IMP*)&_logos_orig$_ungrouped$SBStatusBarStateAggregator$init);MSHookMessageEx(_logos_class$_ungrouped$SBStatusBarStateAggregator, @selector(_updateTimeItems), (IMP)&_logos_method$_ungrouped$SBStatusBarStateAggregator$_updateTimeItems, (IMP*)&_logos_orig$_ungrouped$SBStatusBarStateAggregator$_updateTimeItems);MSHookMessageEx(_logos_class$_ungrouped$SBStatusBarStateAggregator, @selector(_restartTimeItemTimer), (IMP)&_logos_method$_ungrouped$SBStatusBarStateAggregator$_restartTimeItemTimer, (IMP*)&_logos_orig$_ungrouped$SBStatusBarStateAggregator$_restartTimeItemTimer);MSHookMessageEx(_logos_class$_ungrouped$SBStatusBarStateAggregator, @selector(_setItem:enabled:), (IMP)&_logos_method$_ungrouped$SBStatusBarStateAggregator$_setItem$enabled$, (IMP*)&_logos_orig$_ungrouped$SBStatusBarStateAggregator$_setItem$enabled$);{ char _typeEncoding[1024]; unsigned int i = 0; _typeEncoding[i] = 'v'; i += 1; _typeEncoding[i] = '@'; i += 1; _typeEncoding[i] = ':'; i += 1; _typeEncoding[i] = '\0'; class_addMethod(_logos_class$_ungrouped$SBStatusBarStateAggregator, @selector(refreshMemory), (IMP)&_logos_method$_ungrouped$SBStatusBarStateAggregator$refreshMemory, _typeEncoding); }{ char _typeEncoding[1024]; unsigned int i = 0; _typeEncoding[i] = 'v'; i += 1; _typeEncoding[i] = '@'; i += 1; _typeEncoding[i] = ':'; i += 1; _typeEncoding[i] = '\0'; class_addMethod(_logos_class$_ungrouped$SBStatusBarStateAggregator, @selector(updateLocalIP), (IMP)&_logos_method$_ungrouped$SBStatusBarStateAggregator$updateLocalIP, _typeEncoding); }Class _logos_class$_ungrouped$SBMediaController = objc_getClass("SBMediaController"); MSHookMessageEx(_logos_class$_ungrouped$SBMediaController, @selector(init), (IMP)&_logos_method$_ungrouped$SBMediaController$init, (IMP*)&_logos_orig$_ungrouped$SBMediaController$init);Class _logos_class$_ungrouped$SBCCSettingsSectionController = objc_getClass("SBCCSettingsSectionController"); MSHookMessageEx(_logos_class$_ungrouped$SBCCSettingsSectionController, @selector(_setMuted:), (IMP)&_logos_method$_ungrouped$SBCCSettingsSectionController$_setMuted$, (IMP*)&_logos_orig$_ungrouped$SBCCSettingsSectionController$_setMuted$);} }
+#line 278 "/Users/admin/Dropbox/Проекты/StatusModifier/StatusModifier/StatusModifier.xm"
