@@ -2,7 +2,7 @@
 "TIME_SETTINGS_TUTORIAL" = "You can read more in Time Format Reference.\nFor millitary time use switch in \"Date and time\"";
 "FREEMEM_REFRESHRATE" = "RAM Info";
 "meminfo" = "Enabled";
-"FREEMEM_FOOTER" = "Enables free ram info after time. Slider contorls time between getting ram info in settings.";
+"FREEMEM_FOOTER" = "Enables free ram info after time. Slider contorls time between getting ram info.";
 "USEFUL_INFO_HEADER" = "Useful switches";
 "SMTimeItem" = "Time";
 "SMAirPlane" = "Airplane mode";
@@ -22,12 +22,13 @@
 "RESPRING" = "Save and respring";
 "TWITTER" = "Follow me";
 "IMESSAGE" = "firemoon@icloud.com";
-"LOCALIZER" = "Used pics from unknown author. (Write me and i will fix this.)\nUsed icons from http://icons8.com\n";
+"LOCALIZER" = "Used pics from CDSQ Design\nUsed icons from http://icons8.com\n";
 "COPYRIGHT" = "(C) 2014 Firemoon777";
 "iPOD5" = "Force battery percentage for iPod5";
 "SMiPod5" = "Enabled";
 "SMData" = "3G/4G/LTE/Wi-Fi";
 "LOCAL_IP" = "Local IP";
 "SMLocalIP" = "Enabled";
-"LOCAL_IP_FOOTER" = "Shows local ip after date in satusbar. Refresh every 10 minutes or at respring. May not work correctly.";
+"LOCAL_IP_FOOTER" = "Shows local ip after date in statusbar. Refresh every 10 minutes or at respring. May not work correctly.";
 "GITHUB" = "Source code";
+"CUSTOM_ITEMS" = "Custom items";

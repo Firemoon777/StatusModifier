@@ -51,7 +51,6 @@
         [dict release];
         #endif
 	}
-	
 	return value;
 }
 
@@ -165,6 +164,10 @@
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    if(alertView.tag == 1 && alertView.cancelButtonIndex != buttonIndex)
+    {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"cydia://package/libstatusbar"]];
+    }
     if(alertView.tag == 666 && alertView.cancelButtonIndex != buttonIndex)
     {
         system("killall SpringBoard");
@@ -187,6 +190,16 @@
 {
 	if ((self = [super init]))
 	{
+        if(![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/libstatusbar.dylib"])
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning!"
+                                                            message:[NSString stringWithFormat:@"I can't found libtstatusbar. Features like mute item will not work.\nWould you like to install it?"]
+                                                           delegate:self
+                                                  cancelButtonTitle:@"No."
+                                                  otherButtonTitles:@"Install", nil];
+            alert.tag = 1;
+            [alert show];
+        }
 	}
 	
 	return self;

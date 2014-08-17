@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		844395D0199FB23B00EA9EB9 /* LSStatusBarItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 844395CF199FB23B00EA9EB9 /* LSStatusBarItem.h */; };
+		844395D1199FB37200EA9EB9 /* libstatusbar.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 84AA5EAB196EAF7B00A9EE6A /* libstatusbar.dylib */; };
 		8475DE5C196E70710097EF4A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8475DE5B196E70710097EF4A /* Foundation.framework */; };
 		8475DE67196E70720097EF4A /* StatusModifier.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8475DE66196E70720097EF4A /* StatusModifier.mm */; };
 		8475DE77196E70870097EF4A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8475DE5B196E70710097EF4A /* Foundation.framework */; };
@@ -16,11 +18,10 @@
 		8475DE9B196E70DC0097EF4A /* libsubstrate.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8475DE9A196E70DC0097EF4A /* libsubstrate.dylib */; };
 		8475DE9C196E7A780097EF4A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8475DE78196E70870097EF4A /* UIKit.framework */; };
 		8475DE9F196E8D0D0097EF4A /* libMobileGestalt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8475DE9E196E8D0D0097EF4A /* libMobileGestalt.dylib */; };
-		84AA5EAA196EAF0200A9EE6A /* LSStatusBarItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 84AA5EA9196EAF0200A9EE6A /* LSStatusBarItem.h */; };
-		84AA5EAC196EAF7B00A9EE6A /* libstatusbar.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 84AA5EAB196EAF7B00A9EE6A /* libstatusbar.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		844395CF199FB23B00EA9EB9 /* LSStatusBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LSStatusBarItem.h; sourceTree = "<group>"; };
 		8475DE58196E70710097EF4A /* StatusModifier.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = StatusModifier.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		8475DE5B196E70710097EF4A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8475DE60196E70720097EF4A /* control.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = control.txt; path = Package/DEBIAN/control.txt; sourceTree = "<group>"; };
@@ -47,7 +48,6 @@
 		8475DE9A196E70DC0097EF4A /* libsubstrate.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsubstrate.dylib; path = ../../../../../opt/iOSOpenDev/lib/libsubstrate.dylib; sourceTree = "<group>"; };
 		8475DE9D196E8CAE0097EF4A /* libMobileGestalt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libMobileGestalt.h; sourceTree = "<group>"; };
 		8475DE9E196E8D0D0097EF4A /* libMobileGestalt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libMobileGestalt.dylib; path = usr/lib/libMobileGestalt.dylib; sourceTree = SDKROOT; };
-		84AA5EA9196EAF0200A9EE6A /* LSStatusBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LSStatusBarItem.h; sourceTree = "<group>"; };
 		84AA5EAB196EAF7B00A9EE6A /* libstatusbar.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libstatusbar.dylib; path = ../../../Desktop/libstatusbar.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -56,7 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84AA5EAC196EAF7B00A9EE6A /* libstatusbar.dylib in Frameworks */,
+				844395D1199FB37200EA9EB9 /* libstatusbar.dylib in Frameworks */,
 				8475DE9F196E8D0D0097EF4A /* libMobileGestalt.dylib in Frameworks */,
 				8475DE9C196E7A780097EF4A /* UIKit.framework in Frameworks */,
 				8475DE9B196E70DC0097EF4A /* libsubstrate.dylib in Frameworks */,
@@ -114,10 +114,10 @@
 			children = (
 				8475DE65196E70720097EF4A /* StatusModifier.xm */,
 				8475DE66196E70720097EF4A /* StatusModifier.mm */,
+				8475DE9D196E8CAE0097EF4A /* libMobileGestalt.h */,
+				844395CF199FB23B00EA9EB9 /* LSStatusBarItem.h */,
 				8475DE5E196E70720097EF4A /* Package */,
 				8475DE62196E70720097EF4A /* Supporting Files */,
-				8475DE9D196E8CAE0097EF4A /* libMobileGestalt.h */,
-				84AA5EA9196EAF0200A9EE6A /* LSStatusBarItem.h */,
 			);
 			path = StatusModifier;
 			sourceTree = "<group>";
@@ -262,7 +262,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84AA5EAA196EAF0200A9EE6A /* LSStatusBarItem.h in Headers */,
+				844395D0199FB23B00EA9EB9 /* LSStatusBarItem.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

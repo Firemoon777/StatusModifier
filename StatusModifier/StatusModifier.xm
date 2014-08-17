@@ -5,17 +5,18 @@
 /*
  * Name: StatusModifier
  * Author: Vladimir Turov (Firemoon777)
- * Version: 3.1
+ * Version: 3.2.3
  * Dependency: iOS7+, libstatusbar, preferenceloader, mobilesubstrate
  * Summary: Tweak replaces time in status bar with custom info.
  */
 
+
 #import <mach/mach.h>
 #import <sys/types.h>
+#import "LSStatusBarItem.h"
 #import <sys/utsname.h>
 #import <UIKit/UIKit.h>
 #import <mach/mach_host.h>
-#import "LSStatusBarItem.h"
 #import "libMobileGestalt.h"
 #import <CoreTelephony/CTCarrier.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
@@ -53,33 +54,6 @@ NSArray *localIP;
     
     if(result)
     {
-        // Check and load settings file
-        settings = [[NSMutableDictionary alloc] initWithContentsOfFile:PREFS_FILE];
-        if(!settings) settings = [[NSMutableDictionary alloc] init];
-            
-        CHECK_AND_SET(@"SMRAM", @NO)
-        CHECK_AND_SET(@"SMRAMRefresh", @1.f)
-        CHECK_AND_SET(@"SMTimeItem", @YES)
-        CHECK_AND_SET(@"SMAirPlane", @YES)
-        CHECK_AND_SET(@"SMSignalBar", @YES)
-        CHECK_AND_SET(@"SMCarrier", @YES)
-        CHECK_AND_SET(@"SMData", @YES)
-        CHECK_AND_SET(@"SMBattery", @YES)
-        CHECK_AND_SET(@"SMiPod5", @NO)
-        CHECK_AND_SET(@"SMAlarm", @YES)
-        CHECK_AND_SET(@"SMGeoItem", @YES)
-        CHECK_AND_SET(@"SMShowBatteryOnCharge", @NO)
-        CHECK_AND_SET(@"SMRotation", @YES)
-        CHECK_AND_SET(@"SMMute", @YES)
-        CHECK_AND_SET(@"SMDataSpinner", @YES)
-        CHECK_AND_SET(@"SMDoNotDisturb", @YES)
-        CHECK_AND_SET(@"SMLocalIP", @NO)
-            
-        if([[settings objectForKey:@"SMTime"] isEqualToString:@""])
-            [settings setObject:@"HH:mm" forKey:@"SMTime"];
-            
-        [settings writeToFile:PREFS_FILE atomically:YES];
-        
         // Set timer for refreshing RAM info
         if(GET_BOOL(@"SMRAM"))
         {
@@ -92,7 +66,7 @@ NSArray *localIP;
         if(GET_BOOL(@"SMLocalIP"))
         {
             [self updateLocalIP];
-            [NSTimer scheduledTimerWithTimeInterval:10*60 target:self selector:@selector(updateLocalIP) userInfo:nil repeats:YES];
+            [NSTimer scheduledTimerWithTimeInterval:60*10 target:self selector:@selector(updateLocalIP) userInfo:nil repeats:YES];
         }
     }
     
@@ -134,6 +108,7 @@ NSArray *localIP;
     NSTimer *timeItemTimer = MSHookIvar<NSTimer*>(self, "_timeItemTimer");
     [timeItemTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:1]];
 }
+
 
 /*
  * Enable/disable items in statusbar
@@ -193,6 +168,7 @@ NSArray *localIP;
     
 }
 
+
 /*
  * Gets free RAM
  */
@@ -235,19 +211,27 @@ NSArray *localIP;
  */
 %new -(void)updateLocalIP
 {
-    [settings setObject:[[[NSHost currentHost] addresses] objectAtIndex:1] forKey:@"LocalIP"];
+    NSArray *ips = [[NSHost currentHost] addresses];
+    NSString *result = @"null";
+    for(NSString *str in ips)
+    {
+        if(![str isEqualToString:@"127.0.0.1"])
+        {
+            if([[str componentsSeparatedByString:@"."] count] == 4)
+            {
+                result = str;
+            }
+        }
+    }
+    [settings setObject:result forKey:@"LocalIP"];
 }
 %end
 
-// ======================================== //
-// ================== Mute ================ //
-// ======================================== //
 
-BOOL SBMute;
+BOOL SMMute;
 LSStatusBarItem *mute;
 
 %hook SBMediaController
-
 /*
  * Show mute icon
  */
@@ -256,15 +240,24 @@ LSStatusBarItem *mute;
     id result = %orig;
     if(result)
     {
-        NSDictionary *data = [[NSDictionary alloc] initWithContentsOfFile:PREFS_FILE];
-        SBMute = [[data objectForKey:@"SMMute"] boolValue];
-        mute = [[LSStatusBarItem alloc] initWithIdentifier: @"statusmodifier.mute" alignment: StatusBarAlignmentRight];
-        mute.imageName = @"mute";
         bool ringerSwitchState = MSHookIvar<bool>(self, "_ringerMuted");
-        mute.visible = (SBMute && !ringerSwitchState);
-        [data release];
+        mute.visible = (SMMute && !ringerSwitchState);
+        
     }
     return result;
+}
+- (void)_systemMuteChanged:(id)arg1
+{
+    %orig;
+    mute.visible = arg1 && SMMute;
+}
+%end
+
+%hook SpringBoard
+-(void)_updateRingerState:(int)state withVisuals:(BOOL)visuals updatePreferenceRegister:(BOOL)aRegister
+{
+    %orig;
+    if(SMMute) mute.visible = !state;
 }
 %end
 
@@ -274,6 +267,71 @@ LSStatusBarItem *mute;
 %hook SBCCSettingsSectionController
 - (void)_setMuted:(_Bool)arg1
 {
-    mute.visible = arg1;
+    %orig;
+    mute.visible = arg1 && SMMute;
 }
 %end
+
+// ======================================== //
+// =============== Constructor ============ //
+// ======================================== //
+
+static void loadPreferences()
+{
+    // Check and load settings file
+    settings = [[NSMutableDictionary alloc] initWithContentsOfFile:PREFS_FILE];
+    if(!settings) settings = [[NSMutableDictionary alloc] init];
+    
+    CHECK_AND_SET(@"SMRAM", @NO)
+    CHECK_AND_SET(@"SMRAMRefresh", @1.f)
+    CHECK_AND_SET(@"SMTimeItem", @YES)
+    CHECK_AND_SET(@"SMAirPlane", @YES)
+    CHECK_AND_SET(@"SMSignalBar", @YES)
+    CHECK_AND_SET(@"SMCarrier", @YES)
+    CHECK_AND_SET(@"SMData", @YES)
+    CHECK_AND_SET(@"SMBattery", @YES)
+    CHECK_AND_SET(@"SMiPod5", @NO)
+    CHECK_AND_SET(@"SMAlarm", @YES)
+    CHECK_AND_SET(@"SMGeoItem", @YES)
+    CHECK_AND_SET(@"SMShowBatteryOnCharge", @NO)
+    CHECK_AND_SET(@"SMRotation", @YES)
+    CHECK_AND_SET(@"SMMute", @YES)
+    CHECK_AND_SET(@"SMDataSpinner", @YES)
+    CHECK_AND_SET(@"SMDoNotDisturb", @YES)
+    CHECK_AND_SET(@"SMLocalIP", @NO)
+    CHECK_AND_SET(@"SMMute", @YES);
+    
+    if([[settings objectForKey:@"SMTime"] isEqualToString:@""])
+        [settings setObject:@"HH:mm" forKey:@"SMTime"];
+    
+    SMMute = GET_BOOL(@"SMMute");
+    
+    [settings writeToFile:PREFS_FILE atomically:YES];
+}
+
+static void reloadPreferences(CFNotificationCenterRef center, void *observer,
+                              CFStringRef name, const void *object, CFDictionaryRef userInfo)
+{
+    // NOTE: Must synchronize preferences from disk
+    loadPreferences();
+}
+
+%ctor
+{
+    
+    // Load preferences
+    loadPreferences();
+    
+    // Add observer for changes made to preferences
+    CFNotificationCenterAddObserver(
+                                    CFNotificationCenterGetDarwinNotifyCenter(),
+                                    NULL, reloadPreferences, CFSTR("ru.firemoon777.StatusModifierLoader-preferencesChanged"),
+                                    NULL, 0);
+    
+    mute = [[LSStatusBarItem alloc] initWithIdentifier: @"statusmodifier.mute" alignment: StatusBarAlignmentRight];
+    mute.imageName = @"mute";
+    mute.visible = NO;
+    
+    %init();
+    
+}
